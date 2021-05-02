@@ -1,4 +1,3 @@
-#TODO : Draw the initial alive cells on start
 #TODO : attch buttons to keys
 
 from tkinter import *
@@ -7,8 +6,8 @@ from random import randrange
 height = 30
 width = 30
 side = 15 
-alive = 1
-dead = 0
+alive = True
+dead = False
 running = False
 speed = 100
 it = 0
@@ -43,7 +42,7 @@ def button_init():
     second_line_top.pack(side=TOP)
     second_line_bottom.pack(side=BOTTOM, fill=BOTH, expand=True)
 
-    clear_btn = Button(root, text = 'Stop and clear', fg='dark red', command=lambda:[stop(),init()])
+    clear_btn = Button(root, text = 'Clear', fg='dark red', command=lambda:[stop(),init()])
     clear_btn.pack(in_=second_line_top, side=LEFT)
 
     random_btn = Button(root, text = 'Randomize', fg='purple', command = randomize)
@@ -59,11 +58,11 @@ def step():
     calculate()
     draw()
 
-def stop():
+def stop(event=None):
     global running
     running = False
 
-def start():
+def start(event=None):
     global running
     running = True
     recursive()    
@@ -143,13 +142,26 @@ def draw():
                 color = "blue"
             canvas.itemconfig(cell[x][y], fill=color)
 
+def mouse_click(event):
+    x = canvas.canvasx(event.x)
+    y = canvas.canvasy(event.y)
+    x = int(x / side)
+    y = int(y / side)
+    state[x][y] = not state[x][y]
+    draw()
+
 root = Tk()
 root.title("Conway Life Game")
 label=Label(root,text=it)
 label.pack(side=TOP, anchor=NW)
 
 canvas = Canvas(root, width=side*width, height=side*height, highlightthickness=0)
+canvas.bind('<Button>', mouse_click)
 canvas.pack()
 button_init()
+
 init()
+
+#root.bind("<t>", stop())
+#root.bind("<s>", start())
 root.mainloop()
