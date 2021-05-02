@@ -11,7 +11,7 @@ side = 15
 alive = True
 dead = False
 running = False
-speed = 100
+speed = 70
 it = 0
 
 cell = [[0 for row in range(height)] for col in range(width)]
@@ -98,6 +98,7 @@ def randomize():
     draw()    
 
 def clear():
+    global it
     it = 0
     label.config(text=it)
     for y in range(height):
