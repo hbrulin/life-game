@@ -58,11 +58,11 @@ def step():
     calculate()
     draw()
 
-def stop(event=None):
+def stop():
     global running
     running = False
 
-def start(event=None):
+def start():
     global running
     running = True
     recursive()    
@@ -87,6 +87,8 @@ def randomize():
     draw()    
 
 def init():
+    it = 0
+    label.config(text=it)
     for y in range(height):
         for x in range(width):
             state[x][y] = dead
@@ -100,9 +102,9 @@ def calculate():
             # Rule 1 - Death by solitude
             if state[x][y] == alive and getNeighbors(x,y) < 2:
                 temp[x][y] = dead
-            # Rule 2 - Survival if 2 or 3 neighbors
-            #if state[x][y] == alive and (getNeighbors(x,y) == 2 or getNeighbors(x,y) == 3):
-            #    temp[x][y] = alive
+            #Rule 2 - Survival if 2 or 3 neighbors
+            if state[x][y] == alive and (getNeighbors(x,y) == 2 or getNeighbors(x,y) == 3):
+                temp[x][y] = alive
             # Rule 3 - Death by asphyxia
             if state[x][y] == alive and getNeighbors(x,y) > 3:
                 temp[x][y] = dead
@@ -150,6 +152,12 @@ def mouse_click(event):
     state[x][y] = not state[x][y]
     draw()
 
+def on_space_key(event=None):
+    if running==True:
+        stop()
+    else:
+        start()
+
 root = Tk()
 root.title("Conway Life Game")
 label=Label(root,text=it)
@@ -162,6 +170,5 @@ button_init()
 
 init()
 
-#root.bind("<t>", stop())
-#root.bind("<s>", start())
+root.bind("<space>", lambda e: on_space_key())
 root.mainloop()
