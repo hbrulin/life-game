@@ -16,26 +16,29 @@ cell = [[0 for row in range(height)] for col in range(width)]
 state = [[dead for row in range(height)] for col in range(width)]
 temp = [[dead for row in range(height)] for col in range(width)]
 
+buttons = {}
+
 def button_init():
     first_line_top = Frame(root)
     first_line_bottom = Frame(root)
     first_line_top.pack(side=TOP)
     first_line_bottom.pack(side=BOTTOM, fill=BOTH, expand=True)
 
-    start_btn = Button(root, text = 'Start', fg='green', command = start)
-    start_btn.pack(in_=first_line_top, side=LEFT)
-
-    stop_btn = Button(root, text = 'Stop', fg='red', command = stop)
-    stop_btn.pack(in_=first_line_top, side=LEFT)
+    run_btn = Button(root, text = 'Start', fg='green', command = on_space_key)
+    run_btn.pack(in_=first_line_top, side=LEFT)
+    buttons['run'] = run_btn
 
     step_btn = Button(root, text = 'Step', fg='blue', command = step)
     step_btn.pack(in_=first_line_top, side=LEFT)
+    buttons['step'] = step_btn
 
     speed_btn = Button(root, text = 'Speed', fg='yellow', command = speed_up)
     speed_btn.pack(in_=first_line_top, side=LEFT)
+    buttons['speed'] = speed_btn
 
     slow_btn = Button(root, text = 'Slow', fg='orange', command = slow_down)
     slow_btn.pack(in_=first_line_top, side=LEFT)
+    buttons['slow'] = slow_btn
 
     second_line_top = Frame(root)
     second_line_bottom = Frame(root)
@@ -44,12 +47,15 @@ def button_init():
 
     clear_btn = Button(root, text = 'Clear', fg='dark red', command=lambda:[stop(),init()])
     clear_btn.pack(in_=second_line_top, side=LEFT)
+    buttons['clear'] = clear_btn
 
     random_btn = Button(root, text = 'Randomize', fg='purple', command = randomize)
     random_btn.pack(in_=second_line_top, side=LEFT)
+    buttons['random'] = random_btn
 
     close_btn = Button(root, text = 'Close', command = root.destroy)
     close_btn.pack()
+    buttons['close'] = close_btn
 
 def step():
     global it
@@ -60,11 +66,13 @@ def step():
 
 def stop():
     global running
+    buttons['run'].config(text='Start', fg='green')
     running = False
 
 def start():
     global running
     running = True
+    buttons['run'].config(text='Stop', fg='red')
     recursive()    
 
 def speed_up():
