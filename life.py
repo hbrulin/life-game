@@ -19,7 +19,6 @@ state = [[dead for row in range(height)] for col in range(width)]
 temp = [[dead for row in range(height)] for col in range(width)]
 
 buttons = {}
-states = []
 
 #Buttons init
 def button_init():
@@ -197,6 +196,6 @@ root.bind("<space>", lambda e: on_space_key())
 root.bind("<Right>", lambda e: step_forward())
 root.bind("<Up>", lambda e: speed_up())
 root.bind("<Down>", lambda e: slow_down())
-root.bind("<r>", lambda e: randomize())
-root.bind("<c>", lambda e: clear())
+root.bind("<r>", lambda e: [stop(),clear(), randomize()])
+root.bind("<c>", lambda e: [stop(),clear()])
 root.mainloop()
