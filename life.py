@@ -1,4 +1,3 @@
-#TODO : attch buttons to keys
 #TODO : going one step back
 #TODO : buttons img
 #TODO : manage buttons while editing, manage edit while run?
